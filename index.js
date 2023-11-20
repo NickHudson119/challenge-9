@@ -2,72 +2,79 @@
 const fs = require("fs")
 const inquirer = require("inquirer")
 const path = require("path")
-const generateMarkdown = require("")
+const generateMarkdown = require("./utils/generateMarkdown")
 // TODO: Create an array of questions for user input
 const questions = [
     {
         type: "input",
         name: "title",
-        mesage: "What is the title to your project?",
+        message: "What is the title to your project?",
     },
     {
         type: "input",
         name: "description",
-        mesage: "What is the purpose and functionality of your project?",
+        message: "What is the purpose and functionality of your project?",
     },
     {
         type: "input",
         name: "screenshot",
-        mesage: "Please provide the relative path to the image you'd like to use.",
+        message: "Please provide the relative path to the image you'd like to use.",
     },
     {
         type: "input",
         name: "link",
-        mesage: "What is the URL to your deployed application",
+        message: "What is the URL to your deployed application",
     },
     {
         type: "checkbox",
         name: "license",
-        mesage: "Which of these licenses are applicable to your project",
+        message: "Which of these licenses are applicable to your project",
         choices: ["MIT", "APACHE2.0", "Boost1.0", "MPL2.0", "BSD2", "BSD3", "none"]
     },
     {
         type: "input",
         name: "features",
-        mesage: "What are some cool features?",
+        message: "What are some cool features?",
     },
     {
         type: "input",
         name: "usage",
-        mesage: "what languages and/or technologies are used in your project?",
+        message: "what languages and/or technologies are used in your project?",
     },
     {
         type: "input",
         name: "creator",
-        mesage: "What is your GitHub username?",
+        message: "What is your GitHub username?",
     },
     {
         type: "input",
         name: "email",
-        mesage: "What is a valid email address for you?",
+        message: "What is a valid email address for you?",
     },
     {
         type: "input",
         name: "copntributors",
-        mesage: "Did anyone help contribute to your project? (list their GitHub usernames)",
+        message: "Did anyone help contribute to your project? (list their GitHub usernames)",
     },
     {
         type: "input",
         name: "installation",
-        mesage: "what are the required steps in order to install your application?",
+        message: "what are the required steps in order to install your application?",
     },
 ];
 
 // TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
+function writeToFile(fileName, data) {
+    return fs.writeFileSync(path.join(process.cwd(), fileName), data)
+}
 
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    inquirer.prompt(questions).then((responses) => {
+        console.log("Creating Your Professional README.md File...")
+        writeToFile("./assets/README.md", generateMarkdown({...responses}))
+    })
+}
 
 // Function call to initialize app
 init();
